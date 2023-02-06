@@ -15,6 +15,9 @@ def cross_entropy_loss(targets: np.ndarray, outputs: np.ndarray):
     # TODO implement this function (Task 3a)
     assert targets.shape == outputs.shape,\
         f"Targets shape: {targets.shape}, outputs: {outputs.shape}"
+    C_n = -np.sum(targets*np.log(outputs),axis=1)
+    C = np.sum(C_n)/targets.shape[0]
+    return C
     raise NotImplementedError
 
 
@@ -22,10 +25,10 @@ class SoftmaxModel:
 
     def __init__(self, l2_reg_lambda: float):
         # Define number of input nodes
-        self.I = None
+        self.I = 785
 
         # Define number of output nodes
-        self.num_outputs = None
+        self.num_outputs = 10
         self.w = np.zeros((self.I, self.num_outputs))
         self.grad = None
 
@@ -39,7 +42,12 @@ class SoftmaxModel:
             y: output of model with shape [batch size, num_outputs]
         """
         # TODO implement this function (Task 3a)
-        return None
+        numerator = np.exp(self.w.T.dot(X.T))
+        y = np.zeros_like(numerator)
+        
+        y = numerator/np.sum(numerator,axis = 0)
+        
+        return y.T
 
     def backward(self, X: np.ndarray, outputs: np.ndarray, targets: np.ndarray) -> None:
         """
@@ -55,7 +63,7 @@ class SoftmaxModel:
         # which is defined in the constructor.
         assert targets.shape == outputs.shape,\
             f"Output shape: {outputs.shape}, targets: {targets.shape}"
-        self.grad = np.zeros_like(self.w)
+        self.grad = -X.T@(targets-outputs)/targets.shape[0] + self.l2_reg_lambda*self.w
         assert self.grad.shape == self.w.shape,\
             f"Grad shape: {self.grad.shape}, w: {self.w.shape}"
 
@@ -72,6 +80,11 @@ def one_hot_encode(Y: np.ndarray, num_classes: int):
         Y: shape [Num examples, num classes]
     """
     # TODO implement this function (Task 3a)
+    num_examples = Y.shape[0]
+    output = np.zeros((num_examples,num_classes))
+    for i in range(num_examples):
+        output[i,Y[i]] = 1
+    return output
     raise NotImplementedError
 
 
