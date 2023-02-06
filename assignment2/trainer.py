@@ -88,5 +88,16 @@ class BaseTrainer:
                     val_history["loss"][global_step] = val_loss
                     val_history["accuracy"][global_step] = accuracy_val
                     # TODO: Implement early stopping (copy from last assignment)
+                    if (val_loss > array[0]):
+                        i = np.argmin(array)
+                        array[i] = val_loss
+
+                    elif (val_loss <= array[0]):
+                        array = np.zeros((11,))
+                        array[0] = val_loss
+                        
+                    if (array[10] != 0):
+                        print(epoch)
+                        return train_history, val_history
                 global_step += 1
         return train_history, val_history

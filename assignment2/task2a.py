@@ -25,9 +25,12 @@ def cross_entropy_loss(targets: np.ndarray, outputs: np.ndarray):
     Returns:
         Cross entropy error (float)
     """
+    # TODO: Implement this function (copy from last assignment)
+    C_n = -np.sum(targets*np.log(outputs),axis=1)
+    C = np.sum(C_n)/targets.shape[0]
     assert targets.shape == outputs.shape,\
         f"Targets shape: {targets.shape}, outputs: {outputs.shape}"
-    # TODO: Implement this function (copy from last assignment)
+    return C
     raise NotImplementedError
 
 
@@ -43,7 +46,7 @@ class SoftmaxModel:
         # Always reset random seed before weight init to get comparable results.
         np.random.seed(1)
         # Define number of input nodes
-        self.I = None
+        self.I = 785
         self.use_improved_sigmoid = use_improved_sigmoid
         self.use_relu = use_relu
         self.use_improved_weight_init = use_improved_weight_init
@@ -109,6 +112,11 @@ def one_hot_encode(Y: np.ndarray, num_classes: int):
         Y: shape [Num examples, num classes]
     """
     # TODO: Implement this function (copy from last assignment)
+    num_examples = Y.shape[0]
+    output = np.zeros((num_examples,num_classes))
+    for i in range(num_examples):
+        output[i,Y[i]] = 1
+    return output
     raise NotImplementedError
 
 
