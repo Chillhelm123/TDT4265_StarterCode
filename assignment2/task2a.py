@@ -15,10 +15,10 @@ def pre_process_images(X: np.ndarray):
         f"X.shape[1]: {X.shape[1]}, should be 784"
 
     mean = X.mean()
-    sigma = np.sqrt(np.sum((X-mean)**2)/X.size)
+    sigma = np.sqrt(np.sum((X-mean)**2)/(X.size-1))
     
-    # print(f"mean: {mean}")
-    # print(f"std_dev: {sigma}")
+    print(f"mean: {mean}")
+    print(f"std_dev: {sigma}")
     X = (X - mean)/sigma
     X = np.transpose(np.vstack([X.T, np.ones((X.shape[0],))]))
     return X
@@ -71,6 +71,8 @@ class SoftmaxModel:
             w = np.zeros(w_shape)
             self.ws.append(w)
             prev = size
+        for layer_idx, w in enumerate(self.ws):
+            self.ws[layer_idx] = np.random.uniform(-1, 1, size=w.shape)
         self.grads = [None for i in range(len(self.ws))]
 
     def forward(self, X: np.ndarray) -> np.ndarray:
@@ -87,15 +89,16 @@ class SoftmaxModel:
         layer_outputs.append(X.T)
         num_layers = np.size(self.neurons_per_layer)
         for i in range(num_layers):
-            
-            next_layer_output = 1/(1+np.exp(self.ws[i].T.dot(layer_outputs[i])))
+            z = self.ws[i].T@layer_outputs[i]
+            next_layer_output = 1/(1+np.exp(-z))
             layer_outputs.append(next_layer_output)
+
         self.hidden_layer_output = layer_outputs
         
         numerator = np.exp(next_layer_output)
         y = numerator/np.sum(numerator,axis = 0)
         y = y.T
-
+        # print(np.sum(y,axis=1))
 
         return y
 
@@ -116,19 +119,21 @@ class SoftmaxModel:
         # For example, self.grads[0] will be the gradient for the first hidden layer
         # Opposite order (from end to start).
         errors = []
-        self.grads = []
         num_layers = np.size(self.neurons_per_layer)
         errors.append(outputs-targets)
-        self.grads.append(errors[0]@self.hidden_layer_output[num_layers])
+
+        self.grads[0] = self.hidden_layer_output[num_layers-1]@errors[0]
+        self.grads[0] = self.grads[0]
+
         for i in range(1,num_layers):
             f = self.hidden_layer_output[num_layers-i]
             df = f*(1-f)
             
-            new_error = (self.ws[num_layers-i]@errors[i-1].T).dot(df)
-            errors.append(new_error)
+            new_error = self.ws[num_layers-i]@errors[i-1].T*df
+            errors.append(new_error.T)
             
-            new_grad = errors[i].T*f
-            self.grads.append(new_grad)
+            new_grad = self.hidden_layer_output[(num_layers-1)-i]@errors[i]
+            self.grads[i] = new_grad
 
         self.grads = np.flip(self.grads)
         

@@ -71,7 +71,7 @@ class BaseTrainer:
             loss={},
             accuracy={}
         )
-
+        array = np.zeros((11,))
         global_step = 0
         for epoch in range(num_epochs):
             train_loader = utils.batch_loader(
