@@ -14,6 +14,7 @@ def pre_process_images(X: np.ndarray):
     assert X.shape[1] == 784,\
         f"X.shape[1]: {X.shape[1]}, should be 784"
     # TODO implement this function (Task 2a)
+
     return X
 
 
@@ -25,7 +26,6 @@ def cross_entropy_loss(targets: np.ndarray, outputs: np.ndarray):
     Returns:
         Cross entropy error (float)
     """
-    # TODO: Implement this function (copy from last assignment)
     C_n = -np.sum(targets*np.log(outputs),axis=1)
     C = np.sum(C_n)/targets.shape[0]
     assert targets.shape == outputs.shape,\
@@ -111,7 +111,6 @@ def one_hot_encode(Y: np.ndarray, num_classes: int):
     Returns:
         Y: shape [Num examples, num classes]
     """
-    # TODO: Implement this function (copy from last assignment)
     num_examples = Y.shape[0]
     output = np.zeros((num_examples,num_classes))
     for i in range(num_examples):

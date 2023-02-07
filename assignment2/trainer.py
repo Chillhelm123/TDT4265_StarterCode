@@ -87,7 +87,7 @@ class BaseTrainer:
                     train_history["accuracy"][global_step] = accuracy_train
                     val_history["loss"][global_step] = val_loss
                     val_history["accuracy"][global_step] = accuracy_val
-                    # TODO: Implement early stopping (copy from last assignment)
+                    
                     if (val_loss > array[0]):
                         i = np.argmin(array)
                         array[i] = val_loss
