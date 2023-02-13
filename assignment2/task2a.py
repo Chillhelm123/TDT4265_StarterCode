@@ -95,7 +95,7 @@ class SoftmaxModel:
 
         self.hidden_layer_output = layer_outputs
         
-        numerator = np.exp(next_layer_output)
+        numerator = np.exp(z)
         y = numerator/np.sum(numerator,axis = 0)
         y = y.T
         # print(np.sum(y,axis=1))
@@ -121,6 +121,7 @@ class SoftmaxModel:
         errors = []
         num_layers = np.size(self.neurons_per_layer)
         errors.append(outputs-targets)
+        batch_size = X.shape[0]
 
         self.grads[0] = self.hidden_layer_output[num_layers-1]@errors[0]
         self.grads[0] = self.grads[0]
@@ -135,7 +136,7 @@ class SoftmaxModel:
             new_grad = self.hidden_layer_output[(num_layers-1)-i]@errors[i]
             self.grads[i] = new_grad
 
-        self.grads = np.flip(self.grads)
+        self.grads = np.flip(self.grads)/batch_size
         
         for grad, w in zip(self.grads, self.ws):
             assert grad.shape == w.shape,\
