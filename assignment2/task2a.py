@@ -93,9 +93,14 @@ class SoftmaxModel:
         layer_outputs.append(X.T)
         num_layers = np.size(self.neurons_per_layer)
         for i in range(num_layers):
-            z = self.ws[i].T@layer_outputs[i]
-            next_layer_output = 1/(1+np.exp(-z))
-            layer_outputs.append(next_layer_output)
+            if (self.use_improved_sigmoid):
+                z = self.ws[i].T@layer_outputs[i]
+                next_layer_output = 1.7159 * np.tanh(2/3 * z)
+                layer_outputs.append(next_layer_output)
+            else:
+                z = self.ws[i].T@layer_outputs[i]
+                next_layer_output = 1/(1+np.exp(-z))
+                layer_outputs.append(next_layer_output)
 
         self.hidden_layer_output = layer_outputs
         
@@ -132,7 +137,10 @@ class SoftmaxModel:
 
         for i in range(1,num_layers):
             f = self.hidden_layer_output[num_layers-i]
-            df = f*(1-f)
+            if (self.use_improved_sigmoid):
+                df = 1.7159*(2/3)*(1-(f**2)/1.7159)
+            else:
+                df = f*(1-f)
             
             new_error = self.ws[num_layers-i]@errors[i-1].T*df
             errors.append(new_error.T)
