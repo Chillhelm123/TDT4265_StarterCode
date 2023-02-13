@@ -141,7 +141,7 @@ def main():
     plt.xlabel("Number of Training Steps")
     plt.ylabel("Accuracy")
     plt.legend()
-    plt.savefig("task2c_train_loss.png")
+    # plt.savefig("task2c_train_loss.png")
     plt.show()
 
 

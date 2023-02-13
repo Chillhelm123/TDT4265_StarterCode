@@ -69,10 +69,14 @@ class SoftmaxModel:
             w_shape = (prev, size)
             print("Initializing weight to shape:", w_shape)
             w = np.zeros(w_shape)
+            if use_improved_weight_init:
+                w = np.random.normal(0,1/np.sqrt(prev), w_shape)
             self.ws.append(w)
             prev = size
-        for layer_idx, w in enumerate(self.ws):
-            self.ws[layer_idx] = np.random.uniform(-1, 1, size=w.shape)
+        if not use_improved_weight_init:
+            for layer_idx, w in enumerate(self.ws):
+                self.ws[layer_idx] = np.random.uniform(-1, 1, size=w.shape)
+            
         self.grads = [None for i in range(len(self.ws))]
 
     def forward(self, X: np.ndarray) -> np.ndarray:
