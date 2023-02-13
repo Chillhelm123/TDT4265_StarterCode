@@ -71,7 +71,7 @@ class BaseTrainer:
             loss={},
             accuracy={}
         )
-        array = np.zeros((11,))
+        array = np.zeros((51,))
         global_step = 0
         for epoch in range(num_epochs):
             train_loader = utils.batch_loader(
@@ -93,10 +93,10 @@ class BaseTrainer:
                         array[i] = val_loss
 
                     elif (val_loss <= array[0]):
-                        array = np.zeros((11,))
+                        array = np.zeros((51,))
                         array[0] = val_loss
                         
-                    if (array[10] != 0):
+                    if (array[50] != 0):
                         print(epoch)
                         return train_history, val_history
                 global_step += 1

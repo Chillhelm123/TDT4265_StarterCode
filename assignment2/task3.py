@@ -37,10 +37,6 @@ def main():
     )
     train_history, val_history = trainer.train(num_epochs)
 
-    # Example created for comparing with and without shuffling.
-    # For comparison, show all loss/accuracy curves in the same plot
-    # YOU CAN DELETE EVERYTHING BELOW!
-
     use_improved_weight_init = True
     model_plus_weights = SoftmaxModel(
         neurons_per_layer,
@@ -91,13 +87,21 @@ def main():
 
     plt.subplot(1, 2, 1)
     utils.plot_loss(train_history["loss"],
-                    "Without tricks of the trade", npoints_to_average=10)
+                    "Training Loss: Without tricks of the trade", npoints_to_average=10,plot_variance=False)
     utils.plot_loss(
-        train_history_weights["loss"], "With Weight Init", npoints_to_average=10)
+        train_history_weights["loss"], "Training Loss: With Weight Init", npoints_to_average=10,plot_variance=False)
     utils.plot_loss(
-        train_history_sigmoid["loss"], "With Weight Init and Improved sigmoid", npoints_to_average=10)     
+        train_history_sigmoid["loss"], "Training Loss: With Weight Init and Improved sigmoid", npoints_to_average=10,plot_variance=False)     
     utils.plot_loss(
-        train_history_momentum["loss"], "With Weight Init, Improved sigmoid and momentum", npoints_to_average=10) 
+        train_history_momentum["loss"], "Training Loss: With Weight Init, Improved sigmoid and momentum", npoints_to_average=10,plot_variance=False) 
+    utils.plot_loss(val_history["loss"],
+                    "Validation loss: Without tricks of the trade", npoints_to_average=10,plot_variance=False)
+    utils.plot_loss(
+        val_history_weights["loss"], "Validation loss: With Weight Init", npoints_to_average=10,plot_variance=False)
+    utils.plot_loss(
+        val_history_sigmoid["loss"], "Validation loss: With Weight Init and Improved sigmoid", npoints_to_average=10,plot_variance=False)     
+    utils.plot_loss(
+        val_history_momentum["loss"], "Validation loss: With Weight Init, Improved sigmoid and momentum", npoints_to_average=10,plot_variance=False) 
     plt.ylim([0, .4])
     plt.legend()
     plt.subplot(1, 2, 2)
