@@ -138,7 +138,7 @@ class SoftmaxModel:
         for i in range(1,num_layers):
             f = self.hidden_layer_output[num_layers-i]
             if (self.use_improved_sigmoid):
-                df = 1.7159*(2/3)*(1-(f**2)/1.7159)
+                df = 1.7159*(2/3)*(1-(f**2)/1.7159**2)
             else:
                 df = f*(1-f)
             

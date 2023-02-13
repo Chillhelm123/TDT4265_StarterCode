@@ -50,10 +50,16 @@ class SoftmaxTrainer(BaseTrainer):
         """
         # TODO: Implement this function (task 2c)
 
-        loss = 0
+
         logits = self.model.forward(X_batch)
         self.model.backward(X_batch,logits,Y_batch)
-        self.model.ws = self.model.ws - self.learning_rate*self.model.grads
+        if self.use_momentum:
+            for i, w in enumerate(self.model.ws):
+                self.previous_grads[i] = self.model.grads[i] + self.momentum_gamma*self.previous_grads[i]
+                w -= self.learning_rate*self.previous_grads[i]
+        else:
+            self.model.ws = self.model.ws - self.learning_rate*self.model.grads
+        
         loss = cross_entropy_loss(Y_batch, logits)  # sol
 
         return loss
@@ -91,9 +97,9 @@ def main():
     shuffle_data = True
 
     # Settings for task 2 and 3. Keep all to false for task 2.
-    use_improved_sigmoid = False
-    use_improved_weight_init = False
-    use_momentum = False
+    use_improved_sigmoid = True
+    use_improved_weight_init = True
+    use_momentum = True
     use_relu = False
 
     # Load dataset
