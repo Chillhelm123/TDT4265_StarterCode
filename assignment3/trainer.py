@@ -20,9 +20,10 @@ def compute_loss_and_accuracy(
     Returns:
         [average_loss, accuracy]: both scalar.
     """
-    average_loss = 0
-    accuracy = 0
-    # TODO: Implement this function (Task  2a)
+    loss = 0
+    correct_classifications = 0
+    n_img = 0
+
     with torch.no_grad():
         for (X_batch, Y_batch) in dataloader:
             # Transfer images/labels to GPU VRAM, if possible
@@ -30,10 +31,19 @@ def compute_loss_and_accuracy(
             Y_batch = utils.to_cuda(Y_batch)
             # Forward pass the images through our model
             output_probs = model(X_batch)
-
+            
+            
             # Compute Loss and Accuracy
+            siz = X_batch.size(0)
+            n_img = n_img + siz
 
-            # Predicted class is the max index over the column dimension
+            loss = loss + loss_criterion(output_probs,Y_batch).item()*siz
+
+            index = output_probs.argmax(dim=1)
+            correct_classifications = correct_classifications + (Y_batch == index).sum().item()
+            
+    average_loss = loss/n_img
+    accuracy = correct_classifications/n_img
     return average_loss, accuracy
 
 
@@ -53,6 +63,7 @@ class Trainer:
         self.learning_rate = learning_rate
         self.early_stop_count = early_stop_count
         self.epochs = epochs
+        self.test_acc = 0
 
         # Since we are doing multi-class classification, we use CrossEntropyLoss
         self.loss_criterion = torch.nn.CrossEntropyLoss()
@@ -63,8 +74,8 @@ class Trainer:
         print(self.model)
 
         # Define our optimizer. SGD = Stochastich Gradient Descent
-        self.optimizer = torch.optim.SGD(self.model.parameters(),
-                                         self.learning_rate)
+        self.optimizer = torch.optim.Adam(self.model.parameters(),self.learning_rate)
+        
 
         # Load our dataset
         self.dataloader_train, self.dataloader_val, self.dataloader_test = dataloaders
@@ -84,6 +95,10 @@ class Trainer:
             loss=collections.OrderedDict(),
             accuracy=collections.OrderedDict()
         )
+        self.test_history = dict(
+            loss=collections.OrderedDict(),
+            accuracy=collections.OrderedDict()
+        )
         self.checkpoint_dir = pathlib.Path("checkpoints")
 
     def validation_step(self):
@@ -97,6 +112,19 @@ class Trainer:
         )
         self.validation_history["loss"][self.global_step] = validation_loss
         self.validation_history["accuracy"][self.global_step] = validation_acc
+        test_loss, test_acc = compute_loss_and_accuracy(
+            self.dataloader_val, self.model, self.loss_criterion
+        )
+        self.test_acc = test_acc
+        # training_loss, training_acc = compute_loss_and_accuracy(
+        #     self.dataloader_train, self.model, self.loss_criterion
+        # )
+        # self.train_history["accuracy"][self.global_step] = training_acc
+        # test_loss, test_acc = compute_loss_and_accuracy(
+        #     self.dataloader_test, self.model, self.loss_criterion
+        # )
+        # self.test_history["loss"][self.global_step] = test_loss
+        # self.test_history["accuracy"][self.global_step] = test_acc
         used_time = time.time() - self.start_time
         print(
             f"Epoch: {self.epoch:>1}",
@@ -111,6 +139,7 @@ class Trainer:
         """
             Checks if validation loss doesn't improve over early_stop_count epochs.
         """
+        
         # Check if we have more than early_stop_count elements in our validation_loss list.
         val_loss = self.validation_history["loss"]
         if len(val_loss) < self.early_stop_count:
