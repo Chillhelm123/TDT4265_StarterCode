@@ -224,9 +224,19 @@ def get_precision_recall_curve(
     # curve, we will use an approximation
     confidence_thresholds = np.linspace(0, 1, 500)
     # YOUR CODE HERE
-
     precisions = [] 
     recalls = []
+    confident_preds = []
+    for confidence_threshold in confidence_thresholds:
+        for j in range(len(all_prediction_boxes)):
+            confident_pred_idx = confidence_scores[j] >= confidence_threshold
+            confident_pred = all_prediction_boxes[j][confident_pred_idx]
+            confident_preds.append(confident_pred)
+        precision, recall = calculate_precision_recall_all_images(confident_preds, all_gt_boxes, iou_threshold)
+        precisions.append(precision)
+        recalls.append(recall)
+        confident_preds = []
+    
         # END OF YOUR CODE
 
     return np.array(precisions), np.array(recalls)
@@ -263,10 +273,27 @@ def calculate_mean_average_precision(precisions, recalls):
         float: mean average precision
     """
     # Calculate the mean average precision given these recall levels.
-    recall_levels = np.linspace(0, 1.0, 11)
     # YOUR CODE HERE
-    average_precision = 0
+    sum_of_precisions = 0
+    recall_levels = np.linspace(0, 1.0, 11)
+
+    precisions = np.flip(precisions)
+    recalls = np.flip(recalls)
+    
+    for value in recall_levels:
+        if value == 1:
+            break
+        idx = np.argmax(recalls >= value)
+        used_precision = np.max(precisions[idx:])
+        
+        sum_of_precisions += used_precision
+        
+
+    average_precision = sum_of_precisions/11
+    
     #END OF YOUR CODE
+
+
 
     return average_precision
 
