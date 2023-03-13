@@ -29,9 +29,11 @@ class BasicModel(torch.nn.Module):
                 stride=1,
                 padding=1
             ),
+            torch.nn.BatchNorm2d(32),
+            torch.nn.Dropout2d(p=0.02),
             torch.nn.ReLU(),
             torch.nn.MaxPool2d([2,2],2),
-
+            
             torch.nn.Conv2d(
                 in_channels=32,
                 out_channels=64,
@@ -39,6 +41,8 @@ class BasicModel(torch.nn.Module):
                 stride=1,
                 padding=1
             ),
+            torch.nn.BatchNorm2d(64),
+            torch.nn.Dropout2d(p=0.02),
             torch.nn.ReLU(),
             torch.nn.MaxPool2d([2,2],2),
 
@@ -49,6 +53,8 @@ class BasicModel(torch.nn.Module):
                 stride=1,
                 padding=1
             ),
+            torch.nn.BatchNorm2d(64),
+            torch.nn.Dropout2d(p=0.02),
             torch.nn.ReLU(),
 
             torch.nn.Conv2d(
@@ -58,7 +64,10 @@ class BasicModel(torch.nn.Module):
                 stride=2,
                 padding=1
             ),
-            torch.nn.ReLU()
+            torch.nn.BatchNorm2d(output_channels[0]),
+            torch.nn.Dropout2d(p=0.02),
+            torch.nn.ReLU(),
+
         )
 
         self.output_layer_2 = torch.nn.Sequential(
@@ -70,7 +79,34 @@ class BasicModel(torch.nn.Module):
                 stride=1,
                 padding=1
             ),
+            torch.nn.BatchNorm2d(128),
+            torch.nn.Dropout2d(p=0.02),
             torch.nn.ReLU(),
+            
+
+            torch.nn.Conv2d(
+                in_channels=128,
+                out_channels=128,
+                kernel_size=3,
+                stride=1,
+                padding=1
+            ),
+            torch.nn.BatchNorm2d(128),
+            torch.nn.Dropout2d(p=0.02),
+            torch.nn.ReLU(),
+
+            torch.nn.Conv2d(
+                in_channels=128,
+                out_channels=128,
+                kernel_size=3,
+                stride=1,
+                padding=1
+            ),
+            torch.nn.BatchNorm2d(128),
+            torch.nn.Dropout2d(p=0.02),
+            torch.nn.ReLU(),
+            
+
             torch.nn.Conv2d(
                 in_channels=128,
                 out_channels=output_channels[1],
@@ -78,7 +114,10 @@ class BasicModel(torch.nn.Module):
                 stride=2,
                 padding=1
             ),
-            torch.nn.ReLU()
+            torch.nn.BatchNorm2d(output_channels[1]),
+            torch.nn.Dropout2d(p=0.02),
+            torch.nn.ReLU(),
+
         )
 
         self.output_layer_3 = torch.nn.Sequential(
@@ -90,7 +129,34 @@ class BasicModel(torch.nn.Module):
                 stride=1,
                 padding=1
             ),
+            torch.nn.BatchNorm2d(256),
+            torch.nn.Dropout2d(p=0.02),
             torch.nn.ReLU(),
+
+
+            torch.nn.Conv2d(
+                in_channels=256,
+                out_channels=256,
+                kernel_size=3,
+                stride=1,
+                padding=1
+            ),
+            torch.nn.BatchNorm2d(256),
+            torch.nn.Dropout2d(p=0.02),
+            torch.nn.ReLU(),
+
+            torch.nn.Conv2d(
+                in_channels=256,
+                out_channels=256,
+                kernel_size=3,
+                stride=1,
+                padding=1
+            ),
+            torch.nn.BatchNorm2d(256),
+            torch.nn.Dropout2d(p=0.02),
+            torch.nn.ReLU(),
+
+
             torch.nn.Conv2d(
                 in_channels=256,
                 out_channels=output_channels[2],
@@ -98,7 +164,10 @@ class BasicModel(torch.nn.Module):
                 stride=2,
                 padding=1
             ),
-            torch.nn.ReLU()
+            torch.nn.BatchNorm2d(output_channels[2]),
+            torch.nn.Dropout2d(p=0.02),
+            torch.nn.ReLU(),
+
         )
 
         self.output_layer_4 = torch.nn.Sequential(
@@ -110,7 +179,36 @@ class BasicModel(torch.nn.Module):
                 stride=1,
                 padding=1
             ),
+            torch.nn.BatchNorm2d(128),
+            torch.nn.Dropout2d(p=0.02),
             torch.nn.ReLU(),
+
+            
+
+            torch.nn.Conv2d(
+                in_channels=128,
+                out_channels=128,
+                kernel_size=3,
+                stride=1,
+                padding=1
+            ),
+            torch.nn.BatchNorm2d(128),
+            torch.nn.Dropout2d(p=0.02),
+            torch.nn.ReLU(),
+
+            torch.nn.Conv2d(
+                in_channels=128,
+                out_channels=128,
+                kernel_size=3,
+                stride=1,
+                padding=1
+            ),
+            torch.nn.BatchNorm2d(128),
+            torch.nn.Dropout2d(p=0.02),
+            torch.nn.ReLU(),
+
+
+
             torch.nn.Conv2d(
                 in_channels=128,
                 out_channels=output_channels[3],
@@ -118,7 +216,10 @@ class BasicModel(torch.nn.Module):
                 stride=2,
                 padding=1
             ),
-            torch.nn.ReLU()
+            torch.nn.BatchNorm2d(output_channels[3]),
+            torch.nn.Dropout2d(p=0.02),
+            torch.nn.ReLU(),
+
         )
 
         self.output_layer_5 = torch.nn.Sequential(
@@ -130,7 +231,34 @@ class BasicModel(torch.nn.Module):
                 stride=1,
                 padding=1
             ),
+            torch.nn.BatchNorm2d(128),
+            torch.nn.Dropout2d(p=0.02),
             torch.nn.ReLU(),
+
+            
+            torch.nn.Conv2d(
+                in_channels=128,
+                out_channels=128,
+                kernel_size=3,
+                stride=1,
+                padding=1
+            ),
+            torch.nn.BatchNorm2d(128),
+            torch.nn.Dropout2d(p=0.02),
+            torch.nn.ReLU(),
+
+            torch.nn.Conv2d(
+                in_channels=128,
+                out_channels=128,
+                kernel_size=3,
+                stride=1,
+                padding=1
+            ),
+            torch.nn.BatchNorm2d(128),
+            torch.nn.Dropout2d(p=0.02),
+            torch.nn.ReLU(),
+
+            
             torch.nn.Conv2d(
                 in_channels=128,
                 out_channels=output_channels[4],
@@ -138,7 +266,10 @@ class BasicModel(torch.nn.Module):
                 stride=2,
                 padding=1
             ),
-            torch.nn.ReLU()
+            torch.nn.BatchNorm2d(output_channels[4]),
+            torch.nn.Dropout2d(p=0.02),
+            torch.nn.ReLU(),
+
         )
         self.output_layer_6 = torch.nn.Sequential(
             torch.nn.ReLU(),
@@ -149,7 +280,34 @@ class BasicModel(torch.nn.Module):
                 stride=1,
                 padding=1
             ),
+            torch.nn.BatchNorm2d(128),
+            torch.nn.Dropout2d(p=0.02),
             torch.nn.ReLU(),
+
+
+            torch.nn.Conv2d(
+                in_channels=128,
+                out_channels=128,
+                kernel_size=3,
+                stride=1,
+                padding=1
+            ),
+            torch.nn.BatchNorm2d(128),
+            torch.nn.Dropout2d(p=0.02),
+            torch.nn.ReLU(),
+
+            torch.nn.Conv2d(
+                in_channels=128,
+                out_channels=128,
+                kernel_size=3,
+                stride=1,
+                padding=1
+            ),
+            torch.nn.BatchNorm2d(128),
+            torch.nn.Dropout2d(p=0.02),
+            torch.nn.ReLU(),
+
+
             torch.nn.Conv2d(
                 in_channels=128,
                 out_channels=output_channels[5],
@@ -157,7 +315,9 @@ class BasicModel(torch.nn.Module):
                 stride=1,
                 padding=0
             ),
-            torch.nn.ReLU()
+            
+            torch.nn.ReLU(),
+
         )
 
     def forward(self, x):
@@ -174,18 +334,25 @@ class BasicModel(torch.nn.Module):
             shape(-1, output_channels[0], 38, 38),
         """
         out_features = []
-        x1 = self.output_layer_1(x)
+        x1 = self.output_layer_1.forward(x)
         out_features.append(x1)
-        x2 = self.output_layer_2(x1)
+
+        x2 = self.output_layer_2.forward(x1)
         out_features.append(x2)
+
         x3 = self.output_layer_3.forward(x2)
         out_features.append(x3)
-        x4 = self.output_layer_4(x3)
+
+        x4 = self.output_layer_4.forward(x3)
         out_features.append(x4)
-        x5 = self.output_layer_5(x4)
+
+        x5 = self.output_layer_5.forward(x4)
         out_features.append(x5)
-        x6 = self.output_layer_6(x5)
+
+        x6 = self.output_layer_6.forward(x5)
         out_features.append(x6)
+
+        
         
         for idx, feature in enumerate(out_features):
             out_channel = self.out_channels[idx]
