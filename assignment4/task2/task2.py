@@ -117,7 +117,7 @@ def get_all_box_matches(prediction_boxes, gt_boxes, iou_threshold):
     prediction_boxes_matched = np.array([])
     gt_boxes_matched = np.array([])
     for match in sorted_ious:
-        if not np.all(np.isin(match[1],gt_boxes_matched)):
+        if not np.all(np.isin(match[1],gt_boxes_matched)) and not np.all(np.isin(match[2],prediction_boxes_matched)):
             gt_boxes_matched= np.append(gt_boxes_matched,match[1])
             prediction_boxes_matched = np.append(prediction_boxes_matched,match[2])
 
