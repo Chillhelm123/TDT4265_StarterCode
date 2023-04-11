@@ -1,3 +1,4 @@
+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
 # Working on Cybele Computers
 
 There are 25 computers in Cybele (the lab previously known as Tulipan), all with powerful GPU cards (1080, 1080ti etc). There are a lot of students in the class and you have to consider your fellow students when you are using the GPU resources.
