@@ -1,5 +1,7 @@
 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
 python train.py --workers 8 --device 0 --batch-size 32 --data data/RDD2022.yaml --img 640 640 --cfg cfg/training/yolov7-e6e-RDD2022.yaml --weights 'yolov7-e6e_training.pt' --name yolov7-e6e-RDD2022 --hyp data/hyp.scratch.custom.yaml
+python train_aux.py --workers 8 --device 0 --batch-size 8 --data data/RDD2022.yaml --img 1280 1280 --cfg cfg/training/yolov7-e6e-RDD2022.yaml --weights 'yolov7-e6e_training.pt' --name yolov7-e6e-RDD2022 --hyp data/hyp.scratch.custom.yaml
+
 # Working on Cybele Computers
 
 There are 25 computers in Cybele (the lab previously known as Tulipan), all with powerful GPU cards (1080, 1080ti etc). There are a lot of students in the class and you have to consider your fellow students when you are using the GPU resources.
@@ -17,7 +19,7 @@ You can run code in python3 by using, `python3 my_program.py`.
 
 
 ### Installing packages
-If you want to install additional packages in your environment, install it locally. For example:
+If you want to install additional packages in your environment, install it locally. For example
 
 ```bash
 pip3 install --user package_name
