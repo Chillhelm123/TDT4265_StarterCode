@@ -1,5 +1,4 @@
 # Official YOLOv7
-python train.py --workers 8 --device 0 --batch-size 4 --data data/RDD2022.yaml --img 640 640 --cfg cfg/training/yolov7-RDD2022.yaml --weights 'yolov7_training.pt' --name yolov7-RDD2022 --hyp data/hyp.scratch.custom.yaml
 Implementation of paper - [YOLOv7: Trainable bag-of-freebies sets new state-of-the-art for real-time object detectors](https://arxiv.org/abs/2207.02696)
 
 [![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/yolov7-trainable-bag-of-freebies-sets-new/real-time-object-detection-on-coco)](https://paperswithcode.com/sota/real-time-object-detection-on-coco?p=yolov7-trainable-bag-of-freebies-sets-new)
