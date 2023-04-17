@@ -257,8 +257,8 @@ def test(data,
         anno_json = './coco/annotations/instances_val2017.json'  # annotations json
         pred_json = str(save_dir / f"{w}_predictions.json")  # predictions json
         print('\nEvaluating pycocotools mAP... saving %s...' % pred_json)
-        with open(pred_json, 'w') as f:
-            json.dump(jdict, f)
+        with open(pred_json, 'w',encoding = 'utf-8') as f:
+            json.dump(jdict, f, ensure_ascii = False)
 
         try:  # https://github.com/cocodataset/cocoapi/blob/master/PythonAPI/pycocoEvalDemo.ipynb
             from pycocotools.coco import COCO
