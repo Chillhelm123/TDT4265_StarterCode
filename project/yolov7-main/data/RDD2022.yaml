@@ -8,7 +8,7 @@ train: [./data/RDD2022/Czech/train/images/,
         ./data/RDD2022/Japan/train/images/,
         ./data/RDD2022/Norway/train/images/,
         ./data/RDD2022/United_States/train/images/]  # 118287 images
-val: ./data/RDD2022/Norway/train/images/  # 5000 images
+val: ./data/RDD2022/Norway/test/images/  # 5000 images
 test: ./data/RDD2022/Norway/test/images/  # 20288 of 40670 images, submit to https://competitions.codalab.org/competitions/20794
 
 # number of classes
